@@ -8,12 +8,12 @@ import { TestCreationView, type TestCreationViewType } from "../../constants/tes
 const TestCreation = () => {
   const [currentView] = useState<TestCreationViewType>(
     // TestCreationView.CREATE
-    TestCreationView.QUESTIONS
-    // TestCreationView.SCHEDULER
+    // TestCreationView.QUESTIONS
+    TestCreationView.SCHEDULER
   );
 
   return (
-    <div className="h-full w-full p-6">
+    <div className="h-full w-full">
       {currentView === TestCreationView.CREATE && (
         <TestCreationSection />
       )}
@@ -26,7 +26,7 @@ const TestCreation = () => {
       )}
 
       {currentView === TestCreationView.SCHEDULER && (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-5">
           <TestInfo />
           <SchedulerSection />
         </div>
