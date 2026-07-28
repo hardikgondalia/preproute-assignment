@@ -1,20 +1,5 @@
-import { useEffect } from "react";
-import { login } from "../../services/auth.service";
 
 const Dashboard = () => {
-  useEffect(() => {
-    const testLogin = async () => {
-      try {
-        const response = await login();
-        console.log("✅ Login Success:", response);
-      } catch (error) {
-        console.error("❌ Login Failed:", error);
-      }
-    };
-
-    testLogin();
-  }, []);
-
   return (
     // <div className="w-full flex flex-col gap-5">
     <div className="w-full flex flex-col gap-7.5">

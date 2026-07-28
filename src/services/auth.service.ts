@@ -1,11 +1,9 @@
+import type { ApiResponse, LoginData, LoginRequest } from "../models/login";
 import { apiClient } from "../utils/apiClient";
 
-export async function login() {
-  const body = {
-  userId: import.meta.env.VITE_LOGIN_ID,
-  password: import.meta.env.VITE_LOGIN_PASSWORD
-}
-  return apiClient({
+export async function login(body: LoginRequest) {
+    
+  return apiClient<ApiResponse<LoginData>>({
     endpoint: "/api/auth/login",
     method: "POST",
     body,
