@@ -2,23 +2,21 @@ import { Outlet } from "react-router-dom";
 
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import Breadcrumb from "./Breadcrumb";
 
 const MainLayout = () => {
   return (
     <div className="h-screen flex flex-col">
-
-      <Header />
-
       <div className="flex flex-1">
-
         <Sidebar />
-
-        <main className="flex-1 bg-gray-100 p-6 overflow-auto">
-          <Outlet />
-        </main>
-
+        <div className="w-[calc(100%-240px)] flex flex-col">
+          <Header />
+          <main className="w-full flex flex-col gap-5 py-6 px-5">
+            <Breadcrumb />
+            <Outlet />
+          </main>
+        </div>
       </div>
-
     </div>
   );
 };
