@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/auth.service";
+import { setAccessToken } from "../../utils/authStorage";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const Login = () => {
         password: form.password,
       });
       // Adjust according to your API response
-      localStorage.setItem("token", response.data?.token);
+      setAccessToken(response.data?.token)
       localStorage.setItem("user", JSON.stringify(response.data?.user));
       navigate("/dashboard");
     } catch (err: unknown) {

@@ -1,3 +1,5 @@
+import { getAccessToken } from "./authStorage";
+
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -53,6 +55,12 @@ export async function apiClient<T>({
     requestHeaders.set("Content-Type", "application/json");
   }
 
+  const token = getAccessToken();
+
+  if (token) {
+    requestHeaders.set("Authorization", `Bearer ${token}`);
+  }
+
   const response = await fetch(url.toString(), {
     method,
     headers: requestHeaders,
@@ -74,9 +82,7 @@ export async function apiClient<T>({
     };
 
     if (response.status === 401) {
-      localStorage.removeItem("A_user");
-
-      // Redirect using React Router
+      localStorage.removeItem("token");
       window.location.href = "/login";
     }
 
