@@ -44,3 +44,10 @@ export async function updateTest(body: TestConfig, id: string) {
         body
     });
 }
+
+export async function getTestById(id: string) {
+    return apiClient({
+        endpoint: `/api/tests/${id}`,
+        method: "GET"
+    });
+}
