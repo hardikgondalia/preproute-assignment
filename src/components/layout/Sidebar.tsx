@@ -1,23 +1,31 @@
 import { Link } from "react-router-dom";
 
+
 const Sidebar = () => {
   return (
-    <aside className="w-64 bg-white border-r">
+    <aside className="w-60 bg-white border-r border-[#E5E7EB]">
 
-      <nav className="flex flex-col p-4 gap-2">
+      <div className="w-full px-5.5 pt-6 pb-11.5">
+        <a href="" className="flex items-center w-42.5 h-10.25">
+          <img src="/images/logo.svg" alt="" className="w-full h-full" />
+        </a>
+      </div>
 
-        <Link
-          to="/dashboard"
-          className="rounded p-3 hover:bg-gray-100"
-        >
-          Dashboard
+      <nav className="flex flex-col gap-1.25 px-1.5">
+
+        <Link to="/dashboard" className="py-2.75 px-4 flex items-center gap-2.25 font-medium text-[#6B7180] hover:bg-[#F8FAFF] transition-colors duration-300">
+          <img src="/images/dashboard.svg" alt="" className="w-5 h-5" />
+          <span>Dashboard</span>
         </Link>
 
-        <Link
-          to="/test-creation"
-          className="rounded p-3 hover:bg-gray-100"
-        >
-          Test Creation
+        <Link to="/test-creation" className="rounded py-2.75 px-4 flex items-center gap-2.25 font-medium text-[#6B7180] hover:bg-[#F8FAFF] transition-colors duration-300">
+          <img src="/images/edit-active.svg" alt="" className="w-5 h-5" />
+          <span>Test Creation</span>
+        </Link>
+
+        <Link to="/test-tracking" className="rounded py-2.75 px-4 flex items-center gap-2.25 font-medium text-[#6B7180] hover:bg-[#F8FAFF] transition-colors duration-300">
+          <img src="/images/test.svg" alt="" className="w-5 h-5" />
+          <span>Test Tracking</span>
         </Link>
 
       </nav>
