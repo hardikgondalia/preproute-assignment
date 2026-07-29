@@ -86,7 +86,7 @@ const TestCreationSection = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col gap-7.5">
+    <div className="w-full h-full flex flex-col gap-3.5 md:gap-7.5">
       <div className="max-w-sm">
         <div className="relative flex items-center bg-white border border-[#D1D5DB] rounded-xl py-1.25 px-2.5">
           <div
@@ -98,9 +98,9 @@ const TestCreationSection = () => {
           <button className="flex-1 relative z-10 p-2.5 text-[14px] font-normal text-[#9CA3AF] cursor-pointer">Mock Test</button>
         </div>
       </div>
-      <form action="" className="w-full flex flex-col gap-7.5 h-[calc(100%-185px)] overflow-y-scroll">
-        <div className="w-full flex items-center gap-12.5">
-          <div className="flex flex-1 flex-col gap-3.75 font-medium">
+      <form action="" className="w-full flex flex-col gap-7.5 h-full md:h-[calc(100%-185px)] md:overflow-y-auto">
+        <div className="w-full flex flex-col md:flex-row items-center gap-6.5 md:12.5">
+          <div className="w-full flex flex-col gap-3.75 font-medium">
             <label htmlFor="country" className="text-[#374151]">
               Subject
             </label>
@@ -128,7 +128,7 @@ const TestCreationSection = () => {
               />
             </div>
           </div>
-          <div className="flex flex-1 flex-col gap-3.75 font-medium">
+          <div className="w-full flex flex-col gap-3.75 font-medium">
             <label htmlFor="userid" className="text-[#374151]">
               Name of Test
             </label>
@@ -140,8 +140,8 @@ const TestCreationSection = () => {
             />
           </div>
         </div>
-        <div className="w-full flex items-center gap-12.5">
-          <div className="flex flex-1 flex-col gap-3.75 font-medium">
+        <div className="w-full flex flex-col md:flex-row items-center gap-6.5 md:12.5">
+          <div className="w-full flex flex-col gap-3.75 font-medium">
             <label htmlFor="country" className="text-[#374151]">
               Topic
             </label>
@@ -161,7 +161,7 @@ const TestCreationSection = () => {
               />
             </div>
           </div>
-          <div className="flex flex-1 flex-col gap-3.75 font-medium">
+          <div className="w-full flex flex-col gap-3.75 font-medium">
             <label htmlFor="country" className="text-[#374151]">
               Sub Topic
             </label>
@@ -182,8 +182,8 @@ const TestCreationSection = () => {
             </div>
           </div>
         </div>
-        <div className="w-full flex items-center gap-12.5">
-          <div className="flex flex-1 flex-col gap-3.75 font-medium">
+        <div className="w-full flex flex-col md:flex-row items-center gap-6.5 md:12.5">
+          <div className="w-full flex flex-col gap-3.75 font-medium">
             <label htmlFor="userid" className="text-[#374151]">
               Duration (Minutes)
             </label>
@@ -194,7 +194,7 @@ const TestCreationSection = () => {
               className="py-2.75 px-4 text-[#374151] border border-[#9CA3AF] rounded-lg outline-none"
             />
           </div>
-          <div className="flex flex-1 flex-col gap-3.75 font-medium">
+          <div className="w-full flex flex-col gap-3.75 font-medium">
             <label htmlFor="userid" className="text-[#374151]">
               Test Difficulty Level
             </label>
@@ -236,8 +236,8 @@ const TestCreationSection = () => {
           </div>
         </div>
         <div className="text-[16px] font-medium text-[#374151]">Marking Scheme:</div>
-        <div className="w-full flex items-center gap-12.5">
-          <div className="flex-1 flex items-center gap-12.5">
+        <div className="w-full flex flex-col xl:flex-row items-center gap-6.5 lg:12.5">
+          <div className="w-full flex items-center gap-12.5">
             <div className="w-full flex flex-col gap-3.75 font-medium">
               <label htmlFor="userid" className="text-[#374151]">
                 Wrong Answer
@@ -272,7 +272,7 @@ const TestCreationSection = () => {
               />
             </div>
           </div>
-          <div className="flex-1 flex items-center gap-12.5">
+          <div className="w-full flex items-center gap-12.5">
             <div className="w-full flex flex-col gap-3.75 font-medium">
               <label htmlFor="userid" className="text-[#374151]">
                 No of Questions

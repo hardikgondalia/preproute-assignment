@@ -93,7 +93,7 @@ function MultiSelectDropdown<T extends { disabled?: boolean }>({
       >
         <span>{displayValue}</span>
 
-        <img src={open ? "/images/input-up-dropdown.svg" : "/images/input-dropdown.svg"} alt="" className="search_icon ml-auto" />
+        <img src={open ? "/images/input-up-dropdown.svg" : "/images/input-dropdown.svg"} alt="" className="search_icon ml-auto cursor-pointer" />
       </button>
 
       {open && (

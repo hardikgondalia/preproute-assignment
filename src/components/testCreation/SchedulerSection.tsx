@@ -1,6 +1,6 @@
 const SchedulerSection = () => {
   return (
-    <div className="flex flex-col gap-7.5 h-[calc(100%-295px)] overflow-y-scroll">
+    <div className="flex flex-col gap-7.5 h-[calc(100%-295px)] overflow-y-auto">
       <div className="max-w-75">
         <div className="relative flex items-center bg-white border border-[#D1D5DB] rounded-xl py-1.25 px-2.5">
           <div id="indicator"
