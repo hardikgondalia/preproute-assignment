@@ -7,9 +7,9 @@ import { TestCreationView, type TestCreationViewType } from "../../constants/tes
 
 const TestCreation = () => {
   const [currentView] = useState<TestCreationViewType>(
-    // TestCreationView.CREATE
+    TestCreationView.CREATE
     // TestCreationView.QUESTIONS
-    TestCreationView.SCHEDULER
+    // TestCreationView.SCHEDULER
   );
 
   return (

@@ -1,17 +1,10 @@
 import { useEffect, useState } from "react";
-import { getAllSubjects, getSubTopicsByTopic, getTopicBySubject } from "../../services/task.service";
-import type { ApiResponse } from "../../services/interfaces/common";
-
-interface Subject {
-  id: string;
-  name: string;
-}
-
-interface Topic {
-  id: string;
-  name: string;
-  subject_id: string;
-}
+import type { TestConfig } from "../../services/interfaces/test";
+import MultiSelectDropdown from "../common/MultiSelectDropdown";
+import { fetchSubjects, selectSubjects } from "../../store/slice/subjectSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { fetchTopics, selectTopicsBySubject } from "../../store/slice/topicSlice";
+import { getSubTopicsForTopics } from "../../services/subTopic.service";
 
 interface SubTopic {
   id: string;
@@ -20,81 +13,77 @@ interface SubTopic {
 }
 
 const TestCreationSection = () => {
-  const [subjects, setSubjects] = useState<Subject[]>([]);
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const dispatch = useAppDispatch();
+  const initialForm: TestConfig = {
+    name: "",
+    type: "chapterwise",
+    subject: "",
+    topics: [],
+    sub_topics: [],
+    correct_marks: 0,
+    wrong_marks: -1,
+    unattempt_marks: 0,
+    difficulty: "medium",
+    total_time: 0,
+    total_marks: 0,
+    total_questions: 0,
+    status: null,
+  };
+  const [formData, setFormData] = useState<TestConfig>(initialForm);
+  const subjects = useAppSelector(selectSubjects);
+  const topics = useAppSelector(selectTopicsBySubject(formData.subject));
   const [subTopics, setSubTopics] = useState<SubTopic[]>([]);
-  const [selectedSubject, setSelectedSubject] = useState("");
-  const [selectedTopic, setSelectedTopic] = useState("");
-  // const [loading, setLoading] = useState(false);
-  // Load Subjects
+  const [loadingSubTopics, setLoadingSubTopics] = useState(false);
+
   useEffect(() => {
-    const fetchSubjects = async () => {
-      try {
-        // setLoading(true);
+    dispatch(fetchSubjects());
+  }, [dispatch]);
 
-        const response = (await getAllSubjects()) as ApiResponse;
-        setSubjects(response.data ?? []);
-      } catch (error) {
-        console.error("Failed to fetch subjects:", error);
-      } finally {
-        // setLoading(false);
-      }
-    };
-
-    fetchSubjects();
-  }, []);
-
-  // Load Topics when Subject changes
   useEffect(() => {
-    if (!selectedSubject) {
-      setTopics([]);
-      setSubTopics([]);
-      setSelectedTopic("");
-      return;
+    if (formData.subject) {
+      dispatch(fetchTopics(formData.subject));
     }
+  }, [dispatch, formData.subject]);
 
-    const fetchTopics = async () => {
-      try {
-        // setLoading(true);
-
-        const response = (await getTopicBySubject(selectedSubject)) as ApiResponse;
-
-        setTopics(response.data ?? []);
+  useEffect(() => {
+    const loadSubTopics = async () => {
+      if (!formData.topics.length) {
         setSubTopics([]);
-        setSelectedTopic("");
-      } catch (error) {
-        console.error("Failed to fetch topics:", error);
-      } finally {
-        // setLoading(false);
+        setFormData((prev) => ({
+          ...prev,
+          sub_topics: [],
+        }));
+        return;
       }
-    };
 
-    fetchTopics();
-  }, [selectedSubject]);
-
-  // Load Sub Topics when Topic changes
-  useEffect(() => {
-    if (!selectedTopic) {
-      setSubTopics([]);
-      return;
-    }
-
-    const fetchSubTopics = async () => {
       try {
-        // setLoading(true);
-
-        const response = (await getSubTopicsByTopic(selectedTopic)) as ApiResponse;
-
-        setSubTopics(response.data ?? []);
-      } catch (error) {
-        console.error("Failed to fetch sub topics:", error);
+        setLoadingSubTopics(true);
+        const data = await getSubTopicsForTopics(formData.topics);
+        setSubTopics(data);
+        const validIds = new Set(data.map((x) => x.id));
+        setFormData((prev) => ({
+          ...prev,
+          sub_topics: prev.sub_topics.filter((id) => validIds.has(id)),
+        }));
+      } catch (err) {
+        console.error(err);
       } finally {
-        // setLoading(false);
+        setLoadingSubTopics(false);
       }
     };
+    loadSubTopics();
+  }, [formData.topics]);
 
-    fetchSubTopics();
-  }, [selectedTopic]);
+  const handleSubjectChange = (subjectId: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      subject: subjectId,
+      topics: [],
+      sub_topics: [],
+    }));
+
+    dispatch(fetchTopics(subjectId));
+  };
 
   return (
     <div className="w-full flex flex-col gap-7.5">
@@ -119,12 +108,14 @@ const TestCreationSection = () => {
               <select
                 id="subject"
                 name="subject"
-                value={selectedSubject}
-                onChange={(e) => setSelectedSubject(e.target.value)}
+                value={formData.subject}
+                onChange={(e) => {
+                  handleSubjectChange(e.target.value);
+                }}
                 autoComplete="subject-name"
                 className="col-start-1 row-start-1 w-full text-[#374151] appearance-none rounded-md bg-white py-3 pr-8 pl-4 outline-1 -outline-offset-1 outline-[#9CA3AF]"
               >
-                {subjects.map((subject) => (
+                {subjects.map((subject: any) => (
                   <option key={subject.id} value={subject.id}>
                     {subject.name}
                   </option>
@@ -155,27 +146,18 @@ const TestCreationSection = () => {
               Topic
             </label>
             <div className="grid grid-cols-1">
-              <select
-                id="topic"
-                name="topic"
-                value={selectedTopic}
-                onChange={(e) => setSelectedTopic(e.target.value)}
-                disabled={!selectedSubject}
-                autoComplete="country-name"
-                className="col-start-1 row-start-1 w-full text-[#374151] appearance-none rounded-md bg-white py-3 pr-8 pl-4 outline-1 -outline-offset-1 outline-[#9CA3AF]"
-              >
-                <option value="">Select Topic</option>
-
-                {topics.map((topic) => (
-                  <option key={topic.id} value={topic.id}>
-                    {topic.name}
-                  </option>
-                ))}
-              </select>
-              <img
-                src="/images/input-dropdown.svg"
-                alt=""
-                className="pointer-events-none col-start-1 row-start-1 mr-4 size-6 self-center justify-self-end text-gray-500 cursor-pointer"
+              <MultiSelectDropdown
+                options={topics}
+                selectedKeys={formData?.topics}
+                onChange={(keys) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    topics: keys,
+                    sub_topics: [],
+                  }))
+                }
+                getKey={(x: any) => x.id}
+                getLabel={(x: any) => x.name}
               />
             </div>
           </div>
@@ -184,25 +166,18 @@ const TestCreationSection = () => {
               Sub Topic
             </label>
             <div className="grid grid-cols-1">
-              <select
-                id="subTopic"
-                name="subTopic"
-                disabled={!selectedTopic}
-                autoComplete="country-name"
-                className="col-start-1 row-start-1 w-full text-[#374151] appearance-none rounded-md bg-white py-3 pr-8 pl-4 outline-1 -outline-offset-1 outline-[#9CA3AF]"
-              >
-                <option value="">Select Sub Topic</option>
-
-                {subTopics.map((subTopic) => (
-                  <option key={subTopic.id} value={subTopic.id}>
-                    {subTopic.name}
-                  </option>
-                ))}
-              </select>
-              <img
-                src="/images/input-dropdown.svg"
-                alt=""
-                className="pointer-events-none col-start-1 row-start-1 mr-4 size-6 self-center justify-self-end text-gray-500 cursor-pointer"
+              <MultiSelectDropdown
+                options={subTopics}
+                selectedKeys={formData.sub_topics}
+                onChange={(keys) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    sub_topics: keys,
+                  }))
+                }
+                getKey={(x: any) => x.id}
+                getLabel={(x: any) => x.name}
+                disabled={!formData.topics.length || loadingSubTopics}
               />
             </div>
           </div>
