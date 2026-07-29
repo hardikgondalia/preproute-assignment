@@ -1,6 +1,6 @@
 const QuestionsSection = () => {
   return (
-    <div>
+    <div className="w-full h-full">
       <div className="w-full flex items-center justify-between py-3.5">
         <div className="text-[16px] font-medium text-[#07013C]">Question 4<span className="text-[#a4c5f2]">/50</span></div>
         <div className="flex items-center gap-2.5">
@@ -14,7 +14,7 @@ const QuestionsSection = () => {
           </button>
         </div>
       </div>
-      <div className="flex flex-col gap-7.5">
+      <div className="flex flex-col gap-7.5 h-[calc(100%-295px)] overflow-y-scroll">
         <button className="w-fit flex items-center gap-0.5 py-1.5 px-1.25 bg-[#FFFBFB] rounded-lg cursor-pointer">
           <img src="/images/delete.svg" alt="" className="w-5 h-5" />
           <span className="text-[14px] font-normal text-[#FF7F7F]">Delete All Edits</span>

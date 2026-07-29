@@ -86,7 +86,7 @@ const TestCreationSection = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-7.5">
+    <div className="w-full h-full flex flex-col gap-7.5">
       <div className="max-w-sm">
         <div className="relative flex items-center bg-white border border-[#D1D5DB] rounded-xl py-1.25 px-2.5">
           <div
@@ -98,7 +98,7 @@ const TestCreationSection = () => {
           <button className="flex-1 relative z-10 p-2.5 text-[14px] font-normal text-[#9CA3AF] cursor-pointer">Mock Test</button>
         </div>
       </div>
-      <form action="" className="w-full flex flex-col gap-7.5">
+      <form action="" className="w-full flex flex-col gap-7.5 h-[calc(100%-185px)] overflow-y-scroll">
         <div className="w-full flex items-center gap-12.5">
           <div className="flex flex-1 flex-col gap-3.75 font-medium">
             <label htmlFor="country" className="text-[#374151]">
