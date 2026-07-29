@@ -1,8 +1,16 @@
+import { useState } from "react";
+import RichTextEditor from "../common/RichTextEditor";
+import { useAppSelector } from "../../store/hooks";
+
 const QuestionsSection = () => {
+  const currentTestState = useAppSelector((state) => state.currentTest);
+  const [content, setContent] = useState<string>("");
   return (
     <div className="w-full h-full">
       <div className="w-full flex items-center justify-between py-3.5">
-        <div className="text-[16px] font-medium text-[#07013C]">Question 4<span className="text-[#a4c5f2]">/50</span></div>
+        <div className="text-[16px] font-medium text-[#07013C]">
+          Question 4<span className="text-[#a4c5f2]">/50</span>
+        </div>
         <div className="flex items-center gap-2.5">
           <button className="px-2.5 h-10 flex justify-center items-center gap-1.25 bg-[#FAFAFA] rounded-lg text-[14px] font-medium text-[#9CA3AF] cursor-pointer">
             <img src="/images/add.svg" alt="" className="w-5 h-5" />
@@ -19,8 +27,13 @@ const QuestionsSection = () => {
           <img src="/images/delete.svg" alt="" className="w-5 h-5" />
           <span className="text-[14px] font-normal text-[#FF7F7F]">Delete All Edits</span>
         </button>
+        <div>
+          <RichTextEditor content={content} onChange={(html) => setContent(html)} onDelete={() => setContent("")} />
+        </div>
         <div className="flex flex-col gap-5">
-          <label htmlFor="" className="text-[16px] font-medium">Type the options below</label>
+          <label htmlFor="" className="text-[16px] font-medium">
+            Type the options below
+          </label>
           <div className="flex flex-col gap-7.5">
             <div className="flex items-center gap-3.75">
               <input
@@ -73,9 +86,16 @@ const QuestionsSection = () => {
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <label htmlFor="" className="text-[16px] font-medium">Add Solution</label>
+          <label htmlFor="" className="text-[16px] font-medium">
+            Add Solution
+          </label>
           <div className="relative w-full flex">
-            <textarea name="" id="" rows={5} className="py-3 pl-5 pr-8 flex flex-1 items-center gap-4 border border-[#E5E7EB] rounded-lg outline-none"></textarea>
+            <textarea
+              name=""
+              id=""
+              rows={5}
+              className="py-3 pl-5 pr-8 flex flex-1 items-center gap-4 border border-[#E5E7EB] rounded-lg outline-none"
+            ></textarea>
             <img src="/images/input-delete.svg" alt="" className="w-6 h-6 absolute right-2 top-3 cursor-pointer" />
           </div>
           <div className="py-2.5 flex items-center justify-center gap-2">
@@ -109,12 +129,20 @@ const QuestionsSection = () => {
           </div>
         </div>
         <div className="flex flex-col gap-7.5">
-          <label htmlFor="" className="text-[16px] font-medium">Question settings</label>
+          <label htmlFor="" className="text-[16px] font-medium">
+            Question settings
+          </label>
           <div className="flex flex-col gap-5">
             <div className="flex flex-1 flex-col gap-3.75 font-medium">
-              <label htmlFor="country" className="text-[16px] text-[#374151]">Level of Difficulty</label>
+              <label htmlFor="country" className="text-[16px] text-[#374151]">
+                Level of Difficulty
+              </label>
               <div className="grid grid-cols-1">
-                <select id="subject" name="subject" className="col-start-1 row-start-1 w-full text-[#374151] appearance-none rounded-md bg-white py-3 pr-8 pl-4 outline-1 -outline-offset-1 outline-[#9CA3AF]">
+                <select
+                  id="subject"
+                  name="subject"
+                  className="col-start-1 row-start-1 w-full text-[#374151] appearance-none rounded-md bg-white py-3 pr-8 pl-4 outline-1 -outline-offset-1 outline-[#9CA3AF]"
+                >
                   <option></option>
                 </select>
                 <img
@@ -125,9 +153,15 @@ const QuestionsSection = () => {
               </div>
             </div>
             <div className="flex flex-1 flex-col gap-3.75 font-medium">
-              <label htmlFor="country" className="text-[16px] text-[#374151]">Topic</label>
+              <label htmlFor="country" className="text-[16px] text-[#374151]">
+                Topic
+              </label>
               <div className="grid grid-cols-1">
-                <select id="subject" name="subject" className="col-start-1 row-start-1 w-full text-[#374151] appearance-none rounded-md bg-white py-3 pr-8 pl-4 outline-1 -outline-offset-1 outline-[#9CA3AF]">
+                <select
+                  id="subject"
+                  name="subject"
+                  className="col-start-1 row-start-1 w-full text-[#374151] appearance-none rounded-md bg-white py-3 pr-8 pl-4 outline-1 -outline-offset-1 outline-[#9CA3AF]"
+                >
                   <option></option>
                 </select>
                 <img
@@ -138,9 +172,15 @@ const QuestionsSection = () => {
               </div>
             </div>
             <div className="flex flex-1 flex-col gap-3.75 font-medium">
-              <label htmlFor="country" className="text-[16px] text-[#374151]">Sub-topic</label>
+              <label htmlFor="country" className="text-[16px] text-[#374151]">
+                Sub-topic
+              </label>
               <div className="grid grid-cols-1">
-                <select id="subject" name="subject" className="col-start-1 row-start-1 w-full text-[#374151] appearance-none rounded-md bg-white py-3 pr-8 pl-4 outline-1 -outline-offset-1 outline-[#9CA3AF]">
+                <select
+                  id="subject"
+                  name="subject"
+                  className="col-start-1 row-start-1 w-full text-[#374151] appearance-none rounded-md bg-white py-3 pr-8 pl-4 outline-1 -outline-offset-1 outline-[#9CA3AF]"
+                >
                   <option></option>
                 </select>
                 <img
@@ -153,8 +193,12 @@ const QuestionsSection = () => {
           </div>
         </div>
         <div className="flex justify-between items-center flex-wrap gap-2">
-          <button className="min-w-40 h-12 px-3 flex justify-center items-center bg-[#FF7F7F] border-none outline-none rounded-lg text-[16px] font-medium text-[#FAFAFA] cursor-pointer">Exit Test Creation</button>
-          <button className="min-w-50 h-12 px-3 flex justify-center items-center bg-[#7489FF] border-none outline-none rounded-lg text-[16px] font-medium text-[#FAFAFA] cursor-pointer">Next</button>
+          <button className="min-w-40 h-12 px-3 flex justify-center items-center bg-[#FF7F7F] border-none outline-none rounded-lg text-[16px] font-medium text-[#FAFAFA] cursor-pointer">
+            Exit Test Creation
+          </button>
+          <button className="min-w-50 h-12 px-3 flex justify-center items-center bg-[#7489FF] border-none outline-none rounded-lg text-[16px] font-medium text-[#FAFAFA] cursor-pointer">
+            Next
+          </button>
         </div>
       </div>
     </div>

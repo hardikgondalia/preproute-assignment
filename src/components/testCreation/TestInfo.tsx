@@ -1,9 +1,14 @@
+import { useState } from "react";
 import { useAppSelector } from "../../store/hooks";
+import ModalSection from "../common/ModalSection";
+import TestCreationSection from "./TestCreationSection";
 
 const TestInfo = () => {
   // const dispatch = useAppDispatch();
   const currentTestState = useAppSelector((state) => state.currentTest);
+  const [testEdit , setTestEdit ] = useState(false);
   return (
+    <>
     <div className="w-full p-5 flex justify-between border border-[#E5E7EB] rounded-xl">
       <div className="flex flex-col gap-5">
         <div className="w-fit h-6 px-2.5 flex justify-center text-[14px] text-[#F8FAFF] border rounded-xl border-[#F8FAFF] bg-[linear-gradient(104.9deg,#07013C_0%,#000A3A_102.39%)]">
@@ -54,7 +59,7 @@ const TestInfo = () => {
         </ul>
       </div>
       <div className="flex flex-col items-end justify-between">
-        <img src="/images/pen-icon.svg" alt="" className="w-4 h-4 cursor-pointer" />
+        <img src="/images/pen-icon.svg" alt="" className="w-4 h-4 cursor-pointer" onClick={()=>setTestEdit(true)}/>
         <div className="px-1.5 flex items-center gap-1.25 border border-[#E5E7EB] rounded-lg">
           <div className="px-1 flex items-center gap-1.25">
             <img src="/images/timer.svg" alt="" className="w-4 h-4" />
@@ -73,6 +78,10 @@ const TestInfo = () => {
         </div>
       </div>
     </div>
+    <ModalSection isOpen={testEdit} onClose={()=>setTestEdit(false)}>
+      <TestCreationSection/>
+    </ModalSection>
+    </>
   );
 };
 
