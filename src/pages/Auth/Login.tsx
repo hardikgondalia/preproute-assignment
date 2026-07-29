@@ -52,11 +52,11 @@ const Login = () => {
 
   return (
     <div className="w-screen h-screen flex items-center justify-center bg-[#F7FBFF]">
-      <div className="w-full h-full flex px-5 py-4.5">
-        <div className="w-1/2 h-full flex justify-center items-center">
+      <div className="w-full h-full px-5 py-4.5 grid grid-cols-1 lg:grid-cols-2">
+        <div className="hidden lg:flex justify-center items-center">
           <img src="/images/login-image.svg" alt="" className="lg:w-116.75 lg:h-86" />
         </div>
-        <div className="w-1/2 h-full px-25 flex flex-col justify-center gap-7.5 bg-white text-[#374151] border border-[#60A5FA] rounded-lg">
+        <div className="px-5 md:px-14 lg:px-16 xl:px-25 flex flex-col justify-center gap-7.5 bg-white text-[#374151] border border-[#60A5FA] rounded-lg">
           <img src="/images/logo.svg" alt="" className="w-33.75 h-8.5" />
           <div className="flex flex-col gap-5">
             <span className="text-[20px] font-semibold">Login</span>
