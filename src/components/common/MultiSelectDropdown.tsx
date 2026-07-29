@@ -80,7 +80,7 @@ function MultiSelectDropdown<T extends { disabled?: boolean }>({
   }, [tempSelectedKeys, getLabel, placeholder]);
 
   return (
-    <div ref={ref} className="ms_container col-start-1 row-start-1 w-full text-[#374151] appearance-none rounded-md bg-white py-3 pr-8 pl-4 outline-1 -outline-offset-1 outline-[#9CA3AF]">
+    <div ref={ref} className="ms_container col-start-1 row-start-1 w-full text-[#374151] appearance-none rounded-md bg-white py-3 pr-4 pl-4 outline-1 -outline-offset-1 outline-[#9CA3AF]">
       <button
         type="button"
         className="ms_input_box"
@@ -93,7 +93,7 @@ function MultiSelectDropdown<T extends { disabled?: boolean }>({
       >
         <span>{displayValue}</span>
 
-        <img src={open ? "/icons/up-arrow.svg" : "/icons/down-arrow.svg"} alt="" className="search_icon" />
+        <img src={open ? "/images/input-up-dropdown.svg" : "/images/input-dropdown.svg"} alt="" className="search_icon ml-auto" />
       </button>
 
       {open && (
