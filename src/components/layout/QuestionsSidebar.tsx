@@ -5,10 +5,17 @@ const QuestionsSidebar = () => {
   const dispatch = useAppDispatch();
   const totalQuestions = useAppSelector((state) => state.currentTest.data?.total_questions ?? 0);
   const { questions, selectedQuestion } = useAppSelector((state) => state.questions);
+  const questionNumbers = Object.keys(questions)
+    .map(Number)
+    .sort((a, b) => a - b);
   const handleSelectQuestion = (questionNumber: number) => {
     if (!questions[questionNumber]) return;
     dispatch(selectQuestion(questionNumber));
   };
+
+  if (questionNumbers.length === 0) {
+    return <div className="flex flex-1 items-center justify-center px-4 text-center text-sm text-gray-500">No questions available</div>;
+  }
 
   return (
     <div className="flex flex-col gap-2">
