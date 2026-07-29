@@ -39,11 +39,11 @@ const ModalSection = ({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 animate-fadeIn"
+      className="fixed inset-0 z-9999 flex items-center justify-center bg-black/90 animate-fadeIn"
       onClick={closeOnOverlayClick ? onClose : undefined}
     >
       <div
-        className={`relative animate-scaleIn ${className}`}
+        className={`relative animate-scaleIn w-9/12 h-4/5 bg-white p-5 rounded-lg ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

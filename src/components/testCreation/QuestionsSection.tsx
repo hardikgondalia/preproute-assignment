@@ -22,7 +22,7 @@ const QuestionsSection = () => {
           </button>
         </div>
       </div>
-      <div className="flex flex-col gap-7.5 h-[calc(100%-295px)] overflow-y-auto">
+      <div className="pb-5 flex flex-col gap-7.5 h-[calc(100%-325px)] overflow-y-auto">
         <button className="w-fit flex items-center gap-0.5 py-1.5 px-1.25 bg-[#FFFBFB] rounded-lg cursor-pointer">
           <img src="/images/delete.svg" alt="" className="w-5 h-5" />
           <span className="text-[14px] font-normal text-[#FF7F7F]">Delete All Edits</span>
@@ -98,7 +98,7 @@ const QuestionsSection = () => {
             ></textarea>
             <img src="/images/input-delete.svg" alt="" className="w-6 h-6 absolute right-2 top-3 cursor-pointer" />
           </div>
-          <div className="py-2.5 flex items-center justify-center gap-2">
+          {/* <div className="py-2.5 flex items-center justify-center gap-2">
             <div className="w-7 h-7 flex justify-center items-center cursor-pointer">
               <img src="/images/Left.svg" alt="" className="w-3.5 h-3.5" />
             </div>
@@ -126,7 +126,7 @@ const QuestionsSection = () => {
             <div className="w-7 h-7 flex justify-center items-center cursor-pointer">
               <img src="/images/Right.svg" alt="" className="w-3.5 h-3.5" />
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-col gap-7.5">
           <label htmlFor="" className="text-[16px] font-medium">

@@ -127,6 +127,10 @@ const TestCreationSection = () => {
 
   return (
     <div className="w-full h-full flex flex-col gap-3.5 md:gap-7.5">
+      <div className="flex justify-between items-center">
+        <span className="text-[16px] font-medium text-[#00000099]">Edit Test creation</span>
+        <img src="/images/close_small.svg" alt="" className="w-6 h-6 cursor-pointer" />
+      </div>
       <div className="max-w-sm">
         <div className="relative flex items-center bg-white border border-[#D1D5DB] rounded-xl py-1.25 px-2.5">
           <div
