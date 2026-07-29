@@ -15,7 +15,20 @@ const Sidebar = () => {
       </div>
 
       {showQuestionSidebar ? (
-        <QuestionsSidebar />
+        <div className="flex items-center h-full">
+          <div className="h-full flex flex-col gap-2.5 px-4 border-r border-[#E5E7EB]">
+            <Link rel="stylesheet" to="/dashboard">
+              <img src="/images/dashboard.svg" alt="" className="w-5 h-5" />
+            </Link>
+            <Link rel="stylesheet" to="/dashboard">
+              <img src="/images/edit-active.svg" alt="" className="w-5 h-5" />
+            </Link>
+            <Link rel="stylesheet" to="/dashboard">
+              <img src="/images/test.svg" alt="" className="w-5 h-5" />
+            </Link>
+          </div>
+          <QuestionsSidebar />
+        </div>
       ) : (
         <nav className="flex flex-col gap-1.25 px-1.5">
           <Link
@@ -56,8 +69,9 @@ const Sidebar = () => {
             <span>Test Tracking</span>
           </Link>
         </nav>
-      )}
-    </aside>
+      )
+      }
+    </aside >
   );
 };
 
