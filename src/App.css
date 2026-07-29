@@ -185,20 +185,17 @@
 
 .ms_container {
   width: 100%;
-  margin-right: 16px;
   position: relative;
 }
 
 .ms_input_box {
-  border: 1px solid var(--input-border);
   border-radius: 4px;
   width: 100%;
-  height: 45px;
-  padding: 0 16px;
   font-size: 16px;
   font-weight: 400;
   display: flex;
   align-items: center;
+  outline: none;
 }
 
 .ms_input_icon {
@@ -210,28 +207,35 @@
 
 .ms_dropdown {
   position: absolute;
-  width: 100%;
-  max-width: 640px;
+  width: calc(100% - 32px);
   max-height: 150px;
   overflow: auto;
-  padding: 10px 16px;
+  padding: 16px;
   border: 1px solid #dddddd;
+  border-radius: 4px;
   background: #ffffff;
   z-index: 10;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .ms_dropdown label {
-  padding: 5px 0;
+  padding-bottom: 10px;
   display: flex;
   align-items: center;
+  gap: 8px;
   border-bottom: 1px solid #dddddd;
+}
+
+.msd_checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #7489FF;
 }
 
 .ms_dropdown label:last-child {
   border-bottom: 0;
-  padding: 5px 0 0;
 }
 
 .ms_chip_box {

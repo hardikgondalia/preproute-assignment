@@ -80,7 +80,7 @@ function MultiSelectDropdown<T extends { disabled?: boolean }>({
   }, [tempSelectedKeys, getLabel, placeholder]);
 
   return (
-    <div ref={ref} className="ms_container">
+    <div ref={ref} className="ms_container col-start-1 row-start-1 w-full text-[#374151] appearance-none rounded-md bg-white py-3 pr-8 pl-4 outline-1 -outline-offset-1 outline-[#9CA3AF]">
       <button
         type="button"
         className="ms_input_box"
@@ -99,7 +99,7 @@ function MultiSelectDropdown<T extends { disabled?: boolean }>({
       {open && (
         <div className="ms_dropdown">
           <label className="ms_option">
-            <input type="checkbox" checked={isAllSelected} onChange={toggleSelectAll} />
+            <input type="checkbox" className="msd_checkbox" checked={isAllSelected} onChange={toggleSelectAll} />
             <span>Select All</span>
           </label>
 
@@ -112,7 +112,7 @@ function MultiSelectDropdown<T extends { disabled?: boolean }>({
                 cursor: option.disabled ? "not-allowed" : "pointer",
               }}
             >
-              <input type="checkbox" disabled={option.disabled} checked={isSelected(option)} onChange={() => toggleValue(option)} />
+              <input type="checkbox" className="msd_checkbox" disabled={option.disabled} checked={isSelected(option)} onChange={() => toggleValue(option)} />
               <span>{getLabel(option)}</span>
             </label>
           ))}
