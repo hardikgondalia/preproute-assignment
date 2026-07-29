@@ -19,14 +19,14 @@ const TestCreation = () => {
       )}
 
       {currentView === TestCreationView.QUESTIONS && (
-        <div className="flex flex-col gap-5">
+        <div className="h-full flex flex-col gap-5">
           <TestInfo />
           <QuestionsSection />
         </div>
       )}
 
       {currentView === TestCreationView.SCHEDULER && (
-        <div className="flex flex-col gap-5">
+        <div className="h-full flex flex-col gap-5">
           <TestInfo />
           <SchedulerSection />
         </div>
