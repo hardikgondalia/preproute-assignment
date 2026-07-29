@@ -1,5 +1,5 @@
 import { apiClient } from "../utils/apiClient";
-import type { TestConfig } from "./interfaces/test";
+import type { BulkQuestionRequest, TestConfig } from "./interfaces/test";
 
 export async function getAllSubjects() {
     return apiClient({
@@ -49,5 +49,13 @@ export async function getTestById(id: string) {
     return apiClient({
         endpoint: `/api/tests/${id}`,
         method: "GET"
+    });
+}
+
+export async function createBulkQuestions(body:BulkQuestionRequest) {
+    return apiClient({
+        endpoint: `/questions/bulk`,
+        method: "POST",
+        body
     });
 }
