@@ -7,7 +7,7 @@ export interface TestConfig {
     correct_marks: number;
     wrong_marks: number;
     unattempt_marks: number;
-    difficulty: "easy" | "medium" | "hard"; // Using a literal union type for strict validation
+    difficulty: "easy" | "medium" | "difficult"; // Using a literal union type for strict validation
     total_time: number;
     total_marks: number;
     total_questions: number;

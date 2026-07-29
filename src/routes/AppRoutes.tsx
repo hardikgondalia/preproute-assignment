@@ -16,6 +16,8 @@ const AppRoutes = () => {
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/test-creation" element={<TestCreation />} />
+            <Route path="/test-creation/:testId/questions" element={<TestCreation />} />
+            <Route path="/test-creation/:testId/scheduler" element={<TestCreation />} />
 
             {/* Add more protected routes here */}
             {/* <Route path="/users" element={<Users />} /> */}

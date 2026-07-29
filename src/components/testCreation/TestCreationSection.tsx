@@ -5,6 +5,10 @@ import { fetchSubjects, selectSubjects } from "../../store/slice/subjectSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchTopics, selectTopicsBySubject } from "../../store/slice/topicSlice";
 import { getSubTopicsForTopics } from "../../services/subTopic.service";
+import { validateTest, type ValidationErrors } from "../../utils/testValidation";
+import { createTest } from "../../services/task.service";
+import type { ApiResponse } from "../../services/interfaces/common";
+import { useNavigate } from "react-router-dom";
 
 interface SubTopic {
   id: string;
@@ -14,6 +18,7 @@ interface SubTopic {
 
 const TestCreationSection = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const initialForm: TestConfig = {
     name: "",
     type: "chapterwise",
@@ -27,9 +32,11 @@ const TestCreationSection = () => {
     total_time: 0,
     total_marks: 0,
     total_questions: 0,
-    status: null,
+    status: 'draft',
   };
+  const [errors, setErrors] = useState<ValidationErrors>({});
   const [formData, setFormData] = useState<TestConfig>(initialForm);
+  const [saving, setSaving] = useState(false);
   const subjects = useAppSelector(selectSubjects);
   const topics = useAppSelector(selectTopicsBySubject(formData.subject));
   const [subTopics, setSubTopics] = useState<SubTopic[]>([]);
@@ -85,6 +92,39 @@ const TestCreationSection = () => {
     dispatch(fetchTopics(subjectId));
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const validateForm = () => {
+    const validationErrors = validateTest(formData);
+    setErrors(validationErrors);
+    return Object.keys(validationErrors).length === 0;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      setSaving(true);
+      const response = (await createTest(formData)) as ApiResponse;
+      if (response.status === "success") {
+        setFormData(initialForm);
+        navigate(`/test-creation/${response.data.id}/questions`);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="w-full h-full flex flex-col gap-3.5 md:gap-7.5">
       <div className="max-w-sm">
@@ -129,12 +169,14 @@ const TestCreationSection = () => {
             </div>
           </div>
           <div className="w-full flex flex-col gap-3.75 font-medium">
-            <label htmlFor="userid" className="text-[#374151]">
+            <label htmlFor="name" className="text-[#374151]">
               Name of Test
             </label>
             <input
               type="text"
-              name="userid"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
               placeholder="Enter name of Test"
               className="py-2.75 px-4 text-[#374151] border border-[#9CA3AF] rounded-lg outline-none"
             />
@@ -188,8 +230,10 @@ const TestCreationSection = () => {
               Duration (Minutes)
             </label>
             <input
-              type="text"
-              name="userid"
+              type="number"
+              name="total_time"
+              value={formData.total_time}
+              onChange={handleInputChange}
               placeholder="Enter name of Test"
               className="py-2.75 px-4 text-[#374151] border border-[#9CA3AF] rounded-lg outline-none"
             />
@@ -203,7 +247,15 @@ const TestCreationSection = () => {
                 <input
                   id="Easy"
                   type="radio"
-                  name="push-notifications"
+                  name="difficulty"
+                  value="easy"
+                  checked={formData.difficulty === "easy"}
+                  onChange={(e) =>
+                    setFormData((prev: any) => ({
+                      ...prev,
+                      difficulty: e.target.value,
+                    }))
+                  }
                   className="relative size-6 appearance-none rounded-full border-2 border-[#7489FF] bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-[#7489FF] checked:bg-[#7489FF] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7489FF] disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden cursor-pointer"
                 />
                 <label htmlFor="Easy" className="block text-[16px] font-medium text-[#374151] cursor-pointer">
@@ -214,7 +266,15 @@ const TestCreationSection = () => {
                 <input
                   id="Medium"
                   type="radio"
-                  name="push-notifications"
+                  name="difficulty"
+                  value="medium"
+                  checked={formData.difficulty === "medium"}
+                  onChange={(e: any) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      difficulty: e.target.value,
+                    }))
+                  }
                   className="relative size-6 appearance-none rounded-full border-2 border-[#7489FF] bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-[#7489FF] checked:bg-[#7489FF] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7489FF] disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden cursor-pointer"
                 />
                 <label htmlFor="Medium" className="block text-[16px] font-medium text-[#374151] cursor-pointer">
@@ -225,7 +285,15 @@ const TestCreationSection = () => {
                 <input
                   id="Difficult"
                   type="radio"
-                  name="push-notifications"
+                  name="difficulty"
+                  value="difficult"
+                  checked={formData.difficulty === "difficult"}
+                  onChange={(e: any) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      difficulty: e.target.value,
+                    }))
+                  }
                   className="relative size-6 appearance-none rounded-full border-2 border-[#7489FF] bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-[#7489FF] checked:bg-[#7489FF] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7489FF] disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden cursor-pointer"
                 />
                 <label htmlFor="Difficult" className="block text-[16px] font-medium text-[#374151] cursor-pointer">
@@ -244,7 +312,9 @@ const TestCreationSection = () => {
               </label>
               <input
                 type="number"
-                name="userid"
+                name="wrong_marks"
+                value={formData.wrong_marks}
+                onChange={handleInputChange}
                 placeholder=""
                 className="w-full py-2.75 px-4 text-[#374151] border border-[#9CA3AF] rounded-lg outline-none"
               />
@@ -255,7 +325,9 @@ const TestCreationSection = () => {
               </label>
               <input
                 type="number"
-                name="userid"
+                name="unattempt_marks"
+                value={formData.unattempt_marks}
+                onChange={handleInputChange}
                 placeholder=""
                 className="w-full py-2.75 px-4 text-[#374151] border border-[#9CA3AF] rounded-lg outline-none"
               />
@@ -266,7 +338,9 @@ const TestCreationSection = () => {
               </label>
               <input
                 type="number"
-                name="userid"
+                name="correct_marks"
+                value={formData.correct_marks}
+                onChange={handleInputChange}
                 placeholder=""
                 className="w-full py-2.75 px-4 text-[#374151] border border-[#9CA3AF] rounded-lg outline-none"
               />
@@ -278,8 +352,10 @@ const TestCreationSection = () => {
                 No of Questions
               </label>
               <input
-                type="text"
-                name="userid"
+                type="number"
+                name="total_questions"
+                value={formData.total_questions}
+                onChange={handleInputChange}
                 placeholder="Ex:250 Marks"
                 className="w-full py-2.75 px-4 text-[#374151] border border-[#9CA3AF] rounded-lg outline-none"
               />
@@ -289,8 +365,10 @@ const TestCreationSection = () => {
                 Total Marks
               </label>
               <input
-                type="text"
-                name="userid"
+                type="number"
+                name="total_marks"
+                value={formData.total_marks}
+                onChange={handleInputChange}
                 placeholder="Ex:250 Marks"
                 className="w-full py-2.75 px-4 text-[#374151] border border-[#9CA3AF] rounded-lg outline-none"
               />
@@ -302,8 +380,12 @@ const TestCreationSection = () => {
         <button className="border-none bg-[#F8FAFF] rounded-lg w-40 h-12 flex justify-center items-center text-[16px] font-medium text-[#384EC7] cursor-pointer">
           Cancel
         </button>
-        <button className="border-none bg-[#7489FF] rounded-lg w-40 h-12 flex justify-center items-center text-[16px] font-medium text-[#FAFAFA] cursor-pointer">
-          Next
+        <button
+          className="border-none bg-[#7489FF] rounded-lg w-40 h-12 flex justify-center items-center text-[16px] font-medium text-[#FAFAFA] cursor-pointer"
+          onClick={handleSubmit}
+          disabled={saving}
+        >
+          {saving ? "Saving..." : "Next: Add Questions"}
         </button>
       </div>
     </div>
