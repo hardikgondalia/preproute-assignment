@@ -86,6 +86,10 @@ const TestInfo = () => {
         </div>
       </div>
       <ModalSection isOpen={testEdit} onClose={() => setTestEdit(false)}>
+        <div className="flex justify-between items-center">
+          <span className="text-[16px] font-medium text-[#00000099]">Edit Test creation</span>
+          <img src="/images/close_small.svg" alt="" className="w-6 h-6 cursor-pointer" />
+        </div>
         <TestCreationSection />
       </ModalSection>
     </>
