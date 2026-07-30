@@ -90,6 +90,17 @@ const questionSlice = createSlice({
       };
     },
 
+    setQuestions(state, action: PayloadAction<QuestionForm[]>) {
+      state.questions = {};
+      state.questionOrder = [];
+      action.payload.forEach((question) => {
+        state.questions[question.id] = question;
+        state.questionOrder.push(question.id);
+      });
+      state.selectedQuestionId = state.questionOrder[0] ?? null;
+      state.testId = action.payload[0]?.test_id ?? null;
+    },
+
     selectQuestion(state, action: PayloadAction<string>) {
       if (state.questions[action.payload]) {
         state.selectedQuestionId = action.payload;
@@ -177,6 +188,7 @@ const questionSlice = createSlice({
 
 export const {
   initializeTest,
+  setQuestions,
   selectQuestion,
   updateQuestion,
   addQuestion,

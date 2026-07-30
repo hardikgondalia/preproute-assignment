@@ -1,15 +1,25 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAllTests } from "../../services/task.service";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { clearFilters, selectFilteredTests, setFilters, setLoading, setTestList } from "../../store/slice/testListSlice";
 import type { ApiResponse } from "../../services/interfaces/common";
 import { formatDateTime } from "../../utils/appUtils";
+import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
+import useBreadcrumb from "../../contexts/useBreadcrumb";
+import { setCurrentTest } from "../../store/slice/currentTestSlice";
+import ModalSection from "../../components/common/ModalSection";
+import TestCreationSection from "../../components/testCreation/TestCreationSection";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { setBreadcrumb } = useBreadcrumb();
+  const [testEdit, setTestEdit] = useState(false);
   const { loading } = useAppSelector((state) => state.testList);
   const tests = useAppSelector(selectFilteredTests);
   const filters = useAppSelector((state) => state.testList.filters);
+  const [currentTestEdit , setCurrentTestEdit] = useState();
 
   const fetchTests = async () => {
     try {
@@ -26,6 +36,22 @@ const Dashboard = () => {
   useEffect(() => {
     fetchTests();
   }, []);
+
+  const handleView = (test: any) => {
+    dispatch(setCurrentTest(test));
+    setBreadcrumb({
+      menu: "Test",
+      page: "Preview & Publish",
+      tab: "",
+    });
+
+    navigate(`/test-creation/${test?.id}/preview`);
+  };
+
+  const handleEdit = (test:any) => {
+    setCurrentTestEdit(test);
+    setTestEdit(true);
+  }
   return (
     <>
       <main className="flex-1 md:h-[calc(100%-380px)]">
@@ -120,12 +146,24 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="grid grid-cols-3 border-t border-[#E5E7EB]">
-                <button className="py-3 flex justify-center gap-2 items-center hover:bg-[#ebfff280] text-[#008236] font-medium cursor-pointer">
+                <button
+                  className="py-3 flex justify-center gap-2 items-center hover:bg-[#ebfff280] text-[#008236] font-medium cursor-pointer"
+                  onClick={() => handleView(test)}
+                >
                   <img src="/images/view.svg" alt="" className="w-5 h-5" />
                   <span>View</span>
                 </button>
-                <button className="py-3 flex justify-center gap-2 items-center hover:bg-[#ebf0ff80] text-[#7489FF] font-medium border-x border-[#E5E7EB] cursor-pointer">
-                  <img src="/images/pen-icon.svg" alt="" className="w-4 h-4" />
+                <button
+                  disabled={test?.status === "live"}
+                  onClick={()=>handleEdit(test)}
+                  className={clsx(
+                    "py-3 flex justify-center items-center gap-2 font-medium border-x border-[#E5E7EB]",
+                    test?.status === "live"
+                      ? "cursor-not-allowed opacity-50 bg-gray-100 text-gray-400"
+                      : "cursor-pointer text-[#7489FF] hover:bg-[#ebf0ff80]",
+                  )}
+                >
+                  <img src="/images/pen-icon.svg" alt="" className="h-4 w-4" />
                   <span>Edit</span>
                 </button>
                 <button className="py-3 flex justify-center gap-2 items-center hover:bg-[#fff0f180] text-[#fb2c36] font-medium cursor-pointer">
@@ -333,6 +371,14 @@ const Dashboard = () => {
           </div>
         </div> */}
       </main>
+
+        <ModalSection isOpen={testEdit} onClose={() => setTestEdit(false)}>
+        <div className="flex justify-between items-center">
+          <span className="text-[16px] font-medium text-[#00000099]">Edit Test creation</span>
+          <img src="/images/close_small.svg" alt="" className="w-6 h-6 cursor-pointer" onClick={() => setTestEdit(false)}/>
+        </div>
+        <TestCreationSection initialData={currentTestEdit} onClose={() => setTestEdit(false)}/>
+      </ModalSection>
     </>
   );
 };

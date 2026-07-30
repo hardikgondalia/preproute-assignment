@@ -1,22 +1,35 @@
 import { useState } from "react";
 import SegmentedControl from "../common/SegmentController";
+import { useAppSelector } from "../../store/hooks";
+import type { ApiResponse } from "../../services/interfaces/common";
+import { publishTest } from "../../services/task.service";
+import { useNavigate } from "react-router-dom";
 
 const SchedulerSection = () => {
+  const currentTest = useAppSelector((state) => state.currentTest.data);
+  const navigate = useNavigate();
   const [publishType, setPublishType] = useState("publish");
+
+  const handleNext = async () => {
+    if (publishType === "publish") {
+      try {
+        if (!currentTest?.id) return;
+        const response = (await publishTest(currentTest.id)) as ApiResponse;
+        if (response.status) {
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      navigate("/dashboard");
+    }
+  };
+
+  const handleCancel = () => {navigate("/dashboard");};
   return (
     <div className="flex flex-col gap-7.5 h-[calc(100%-295px)] overflow-y-auto">
-      <div className="max-w-75">
-        {/* <div className="relative flex items-center bg-white border border-[#D1D5DB] rounded-xl py-1.25 px-2.5">
-          <div id="indicator"
-            className="absolute top-1.25 left-2.5 h-10 w-[calc((100%-16px)/2)] rounded-lg bg-[#F8FAFF] transition-all duration-300 ease-in-out">
-          </div>
-          <button className="flex-1 relative z-10 p-2.5 text-[14px] font-bold text-[#07013C] cursor-pointer">
-            Publish Now
-          </button>
-          <button className="flex-1 relative z-10 p-2.5 text-[14px] font-normal text-[#9CA3AF] cursor-pointer">
-            Schedule Publish
-          </button>
-        </div> */}
+      <div className="w-full max-w-md">
         <SegmentedControl
           value={publishType}
           onChange={setPublishType}
@@ -25,25 +38,28 @@ const SchedulerSection = () => {
             { value: "schedule", label: "Schedule Publish" },
           ]}
         />
-        ;
       </div>
-      <div className="flex flex-1 flex-col gap-3.75">
-        <label htmlFor="country" className="text-[16px] font-bold text-[#374151]">
-          Select Date and Time
-        </label>
-        <div className="flex items-center flex-wrap gap-5">
-          <input
-            type="date"
-            placeholder="Select Date"
-            className="py-3 px-4 flex flex-1 items-center border border-[#E5E7EB] rounded-lg outline-none"
-          />
-          <input
-            type="time"
-            placeholder="Select Time"
-            className="py-3 px-4 flex flex-1 items-center border border-[#E5E7EB] rounded-lg outline-none"
-          />
+
+      {publishType === "schedule" && (
+        <div className="flex flex-1 flex-col gap-3.75">
+          <label htmlFor="country" className="text-[16px] font-bold text-[#374151]">
+            Select Date and Time
+          </label>
+          <div className="flex items-center flex-wrap gap-5">
+            <input
+              type="date"
+              placeholder="Select Date"
+              className="py-3 px-4 flex flex-1 items-center border border-[#E5E7EB] rounded-lg outline-none"
+            />
+            <input
+              type="time"
+              placeholder="Select Time"
+              className="py-3 px-4 flex flex-1 items-center border border-[#E5E7EB] rounded-lg outline-none"
+            />
+          </div>
         </div>
-      </div>
+      )}
+
       <div className="flex flex-1 flex-col gap-3.75">
         <div className="text-[16px] font-bold text-[#374151]">Live Until</div>
         <div className="text-[16px] font-medium text-[#6B7180]">Choose how long this test should remain available on the platform.</div>
@@ -133,10 +149,16 @@ const SchedulerSection = () => {
         />
       </div>
       <div className="flex justify-end items-center gap-5">
-        <button className="border-none bg-[#F8FAFF] rounded-lg w-40 h-12 flex justify-center items-center text-[16px] font-medium text-[#384EC7] cursor-pointer">
+        <button
+          className="border-none bg-[#F8FAFF] rounded-lg w-40 h-12 flex justify-center items-center text-[16px] font-medium text-[#384EC7] cursor-pointer"
+          onClick={() => handleCancel()}
+        >
           Cancel
         </button>
-        <button className="border-none bg-[#7489FF] rounded-lg w-40 h-12 flex justify-center items-center text-[16px] font-medium text-[#FAFAFA] cursor-pointer">
+        <button
+          className="border-none bg-[#7489FF] rounded-lg w-40 h-12 flex justify-center items-center text-[16px] font-medium text-[#FAFAFA] cursor-pointer"
+          onClick={() => handleNext()}
+        >
           Next
         </button>
       </div>
