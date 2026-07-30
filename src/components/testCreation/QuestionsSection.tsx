@@ -34,10 +34,10 @@ const QuestionsSection = () => {
   };
 
   const handleDeleteQuestion = () => {
-  if (!selectedQuestionId) return;
+    if (!selectedQuestionId) return;
 
-  dispatch(deleteQuestion(selectedQuestionId));
-};
+    dispatch(deleteQuestion(selectedQuestionId));
+  };
 
   return (
     <div className="w-full h-full">
@@ -60,7 +60,9 @@ const QuestionsSection = () => {
       <div className="pb-5 flex flex-col gap-7.5 h-[calc(100%-355px)] overflow-y-auto">
         <button className="w-fit flex items-center gap-0.5 py-1.5 px-1.25 bg-[#FFFBFB] rounded-lg cursor-pointer">
           <img src="/images/delete.svg" alt="" className="w-5 h-5" />
-          <span className="text-[14px] font-normal text-[#FF7F7F]" onClick={()=>handleDeleteQuestion()}>Delete All Edits</span>
+          <span className="text-[14px] font-normal text-[#FF7F7F]" onClick={() => handleDeleteQuestion()}>
+            Delete All Edits
+          </span>
         </button>
         <div>
           <RichTextEditor
@@ -377,12 +379,14 @@ const QuestionsSection = () => {
           <button className="min-w-40 h-12 px-3 flex justify-center items-center bg-[#FF7F7F] border-none outline-none rounded-lg text-[16px] font-medium text-[#FAFAFA] cursor-pointer">
             Exit Test Creation
           </button>
-          <button
-            className="min-w-50 h-12 px-3 flex justify-center items-center bg-[#7489FF] border-none outline-none rounded-lg text-[16px] font-medium text-[#FAFAFA] cursor-pointer"
-            onClick={handleNext}
-          >
-            Next
-          </button>
+          {selectedQuestion !== totalQuestions && (
+            <button
+              className="min-w-50 h-12 px-3 flex justify-center items-center bg-[#7489FF] border-none outline-none rounded-lg text-[16px] font-medium text-[#FAFAFA] cursor-pointer"
+              onClick={handleNext}
+            >
+              Next
+            </button>
+          )}
         </div>
       </div>
     </div>

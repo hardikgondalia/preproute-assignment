@@ -3,7 +3,7 @@ import { selectQuestion } from "../../store/slice/questionSlice";
 
 const QuestionsSidebar = () => {
   const dispatch = useAppDispatch();
-  // const totalQuestions = useAppSelector((state) => state.currentTest.data?.total_questions ?? 0);
+  const totalQuestions = useAppSelector((state) => state.currentTest.data?.total_questions ?? 0);
   // // const { questions, selectedQuestion } = useAppSelector((state) => state.questions);
   // // const questionNumbers = Object.keys(questions)
   // //   .map(Number)
@@ -14,7 +14,7 @@ const QuestionsSidebar = () => {
     dispatch(selectQuestion(questionId));
   };
 
-  if (questionOrder.length === 0) {
+  if (questionOrder?.length === 0) {
     return <div className="flex flex-1 items-center justify-center px-4 text-center text-sm text-gray-500">No questions available</div>;
   }
 
@@ -27,7 +27,7 @@ const QuestionsSidebar = () => {
       <div className="px-2.5 text-[14px] font-normal text-[#6B7180] flex gap-1.25 mb-6">
         <span>Total Questions</span>
         <span>.</span>
-        <span className="font-medium">50</span>
+        <span className="font-medium">{totalQuestions}</span>
       </div>
       <div className="flex flex-col gap-2.5 px-2.5 pb-5 md:h-[calc(100%-180px)] md:overflow-y-auto">
         {questionOrder.map((questionId, index) => {

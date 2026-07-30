@@ -1,15 +1,33 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import TestCreationSection from "../../components/testCreation/TestCreationSection";
 import TestInfo from "../../components/testCreation/TestInfo";
 import QuestionsSection from "../../components/testCreation/QuestionsSection";
 import SchedulerSection from "../../components/testCreation/SchedulerSection";
+
 import { TestCreationView, type TestCreationViewType } from "../../constants/testCreationView";
-import { useLocation, } from "react-router-dom";
+
 import useCurrentTest from "../../hooks/useCurrentTest";
+import { useAppDispatch } from "../../store/hooks";
+import type { RootState } from "../../store/store";
+import { initializeTest } from "../../store/slice/questionSlice";
 
 const TestCreation = () => {
   const { pathname } = useLocation();
   useCurrentTest();
+  const dispatch = useAppDispatch();
+  const { selectedQuestionId, testId } = useSelector((state: RootState) => state.questions);
+  useEffect(() => {
+    // Only initialize when opening the Questions page
+    if (pathname.includes("/questions") && !selectedQuestionId && testId) {
+      dispatch(initializeTest(testId));
+    }
+  }, [dispatch, pathname, selectedQuestionId, testId]);
+
   let currentView: TestCreationViewType = TestCreationView.CREATE;
+
   if (pathname.includes("/questions")) {
     currentView = TestCreationView.QUESTIONS;
   } else if (pathname.includes("/scheduler")) {
