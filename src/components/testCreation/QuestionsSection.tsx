@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import RichTextEditor from "../common/RichTextEditor";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { initializeTest, nextQuestion, restoreDraft, updateQuestion } from "../../store/slice/questionSlice";
+import { deleteQuestion, initializeTest, nextQuestion, restoreDraft, updateQuestion } from "../../store/slice/questionSlice";
 import { loadQuestionDraft, saveQuestionDraft } from "../../utils/questionDraftStorage";
 
 const QuestionsSection = () => {
   const dispatch = useAppDispatch();
   const currentTestState = useAppSelector((state) => state.currentTest);
   const questionState = useAppSelector((state) => state.questions);
-  const { selectedQuestion, questions } = questionState;
-  const currentQuestion = questions[selectedQuestion];
+  const { selectedQuestionId, questionOrder, questions } = questionState;
+  const selectedQuestion = selectedQuestionId ? questionOrder.indexOf(selectedQuestionId) + 1 : 1;
+  const currentQuestion = selectedQuestionId ? questions[selectedQuestionId] : null;
   const testId = currentTestState.data?.id ?? "";
   const totalQuestions = currentTestState.data?.total_questions ?? 0;
 
@@ -29,15 +30,14 @@ const QuestionsSection = () => {
   }, [questionState]);
 
   const handleNext = () => {
-    if (selectedQuestion === totalQuestions) {
-      return;
-    }
-    dispatch(
-      nextQuestion({
-        totalQuestions,
-      }),
-    );
+    dispatch(nextQuestion(totalQuestions));
   };
+
+  const handleDeleteQuestion = () => {
+  if (!selectedQuestionId) return;
+
+  dispatch(deleteQuestion(selectedQuestionId));
+};
 
   return (
     <div className="w-full h-full">
@@ -60,7 +60,7 @@ const QuestionsSection = () => {
       <div className="pb-5 flex flex-col gap-7.5 h-[calc(100%-355px)] overflow-y-auto">
         <button className="w-fit flex items-center gap-0.5 py-1.5 px-1.25 bg-[#FFFBFB] rounded-lg cursor-pointer">
           <img src="/images/delete.svg" alt="" className="w-5 h-5" />
-          <span className="text-[14px] font-normal text-[#FF7F7F]">Delete All Edits</span>
+          <span className="text-[14px] font-normal text-[#FF7F7F]" onClick={()=>handleDeleteQuestion()}>Delete All Edits</span>
         </button>
         <div>
           <RichTextEditor
@@ -68,7 +68,7 @@ const QuestionsSection = () => {
             onChange={(html) =>
               dispatch(
                 updateQuestion({
-                  questionNumber: selectedQuestion,
+                  questionId: selectedQuestionId!,
                   field: "question",
                   value: html,
                 }),
@@ -77,7 +77,7 @@ const QuestionsSection = () => {
             onDelete={() =>
               dispatch(
                 updateQuestion({
-                  questionNumber: selectedQuestion,
+                  questionId: selectedQuestionId!,
                   field: "question",
                   value: "",
                 }),
@@ -98,7 +98,7 @@ const QuestionsSection = () => {
                 onChange={() =>
                   dispatch(
                     updateQuestion({
-                      questionNumber: selectedQuestion,
+                      questionId: selectedQuestionId!,
                       field: "correct_option",
                       value: "option1",
                     }),
@@ -116,7 +116,7 @@ const QuestionsSection = () => {
                   onChange={(e) =>
                     dispatch(
                       updateQuestion({
-                        questionNumber: selectedQuestion,
+                        questionId: selectedQuestionId!,
                         field: "option1",
                         value: e.target.value,
                       }),
@@ -134,7 +134,7 @@ const QuestionsSection = () => {
                 onChange={() =>
                   dispatch(
                     updateQuestion({
-                      questionNumber: selectedQuestion,
+                      questionId: selectedQuestionId!,
                       field: "correct_option",
                       value: "option2",
                     }),
@@ -152,7 +152,7 @@ const QuestionsSection = () => {
                   onChange={(e) =>
                     dispatch(
                       updateQuestion({
-                        questionNumber: selectedQuestion,
+                        questionId: selectedQuestionId!,
                         field: "option2",
                         value: e.target.value,
                       }),
@@ -170,7 +170,7 @@ const QuestionsSection = () => {
                 onChange={() =>
                   dispatch(
                     updateQuestion({
-                      questionNumber: selectedQuestion,
+                      questionId: selectedQuestionId!,
                       field: "correct_option",
                       value: "option3",
                     }),
@@ -188,7 +188,7 @@ const QuestionsSection = () => {
                   onChange={(e) =>
                     dispatch(
                       updateQuestion({
-                        questionNumber: selectedQuestion,
+                        questionId: selectedQuestionId!,
                         field: "option3",
                         value: e.target.value,
                       }),
@@ -206,7 +206,7 @@ const QuestionsSection = () => {
                 onChange={() =>
                   dispatch(
                     updateQuestion({
-                      questionNumber: selectedQuestion,
+                      questionId: selectedQuestionId!,
                       field: "correct_option",
                       value: "option4",
                     }),
@@ -224,7 +224,7 @@ const QuestionsSection = () => {
                   onChange={(e) =>
                     dispatch(
                       updateQuestion({
-                        questionNumber: selectedQuestion,
+                        questionId: selectedQuestionId!,
                         field: "option4",
                         value: e.target.value,
                       }),
@@ -249,7 +249,7 @@ const QuestionsSection = () => {
               onChange={(e) =>
                 dispatch(
                   updateQuestion({
-                    questionNumber: selectedQuestion,
+                    questionId: selectedQuestionId!,
                     field: "explanation",
                     value: e.target.value,
                   }),
@@ -277,7 +277,7 @@ const QuestionsSection = () => {
                   onChange={(e) =>
                     dispatch(
                       updateQuestion({
-                        questionNumber: selectedQuestion,
+                        questionId: selectedQuestionId!,
                         field: "difficulty",
                         value: e.target.value,
                       }),
@@ -311,7 +311,7 @@ const QuestionsSection = () => {
                   onChange={(e) =>
                     dispatch(
                       updateQuestion({
-                        questionNumber: selectedQuestion,
+                        questionId: selectedQuestionId!,
                         field: "topic",
                         value: e.target.value,
                       }),
@@ -347,7 +347,7 @@ const QuestionsSection = () => {
                   onChange={(e) =>
                     dispatch(
                       updateQuestion({
-                        questionNumber: selectedQuestion,
+                        questionId: selectedQuestionId!,
                         field: "sub_topic",
                         value: e.target.value,
                       }),
