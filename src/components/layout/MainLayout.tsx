@@ -7,7 +7,7 @@ import Breadcrumb from "./Breadcrumb";
 const MainLayout = () => {
   return (
     <div className="h-screen flex flex-col">
-      <div className="flex flex-1">
+      <div className="flex flex-1 h-full">
         <Sidebar />
         {/* <QuestionsSidebar/> */}
         <div className="w-full md:w-[calc(100%-240px)] h-screen flex flex-col">

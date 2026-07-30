@@ -19,7 +19,7 @@ const QuestionsSidebar = () => {
   }
 
   return (
-    <div className="h-full flex flex-1 flex-col gap-2 py-10">
+    <div className="h-full flex flex-1 flex-col gap-2 pt-10 pb-4">
       <div className="px-2.5 flex justify-between items-center flex-wrap mb-6">
         <span className="text-[15px] font-medium text-[#6B7180]">Question creation</span>
         <img src="/images/previous.svg" alt="" className="w-4.5 h-4.5 cursor-pointer" />
@@ -29,8 +29,8 @@ const QuestionsSidebar = () => {
         <span>.</span>
         <span className="font-medium">{totalQuestions}</span>
       </div>
-      <div className="flex flex-col gap-2.5 px-2.5 pb-5 md:h-[calc(100%-180px)] md:overflow-y-auto">
-        {questionOrder.map((questionId, index) => {
+      <div className="flex flex-col gap-2.5 px-2.5 pb-5 pt-2.5 md:h-[calc(100%-110px)] md:overflow-y-auto">
+        {questionOrder?.map((questionId, index) => {
           const question = questions[questionId];
           if (!question) return null;
           const isStarted = question.hasStarted;
@@ -55,7 +55,7 @@ const QuestionsSidebar = () => {
             <button
               key={questionId}
               onClick={() => handleSelectQuestion(questionId)}
-              className={`h-8 rounded-lg px-3 flex items-center gap-2.5 hover:bg-[#F2FAF6] transition-colors duration-300 cursor-pointer ${className}`}
+              className={`rounded-lg px-3 py-1.5 flex items-center gap-2.5 hover:bg-[#F2FAF6] transition-colors duration-300 cursor-pointer ${className}`}
             >
               {isCompleted && <img src="/images/tick.svg" alt="" className="w-4 h-4" />}
               <span className="text-[12px] font-normal">Question {index + 1}</span>
