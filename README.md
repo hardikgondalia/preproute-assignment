@@ -1,7 +1,7 @@
 # Task Overview
-Developed By : Hardik Gondalia
-Email : Hardikgondalia1990@gmail.com
-Contact : +91-8469224562
+- Developed By : Hardik Gondalia
+- Email : Hardikgondalia1990@gmail.com
+- Contact : +91-8469224562
 
 # React + TypeScript + Vite
 
