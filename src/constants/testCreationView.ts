@@ -2,6 +2,7 @@ export const TestCreationView = {
   CREATE: "CREATE",
   QUESTIONS: "QUESTIONS",
   SCHEDULER: "SCHEDULER",
+  PREVIEW: "PREVIEW",
 } as const;
 
 export type TestCreationViewType =

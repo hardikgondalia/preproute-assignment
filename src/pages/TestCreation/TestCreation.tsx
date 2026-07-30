@@ -13,6 +13,7 @@ import useCurrentTest from "../../hooks/useCurrentTest";
 import { useAppDispatch } from "../../store/hooks";
 import type { RootState } from "../../store/store";
 import { initializeTest } from "../../store/slice/questionSlice";
+import Preview from "../../components/testCreation/Preview_Publish";
 
 const TestCreation = () => {
   const { pathname } = useLocation();
@@ -32,6 +33,8 @@ const TestCreation = () => {
     currentView = TestCreationView.QUESTIONS;
   } else if (pathname.includes("/scheduler")) {
     currentView = TestCreationView.SCHEDULER;
+  }else if(pathname.includes("/preview")){
+    currentView = TestCreationView.PREVIEW;
   }
 
   return (
@@ -49,6 +52,12 @@ const TestCreation = () => {
         <div className="h-full flex flex-col gap-5">
           <TestInfo />
           <SchedulerSection />
+        </div>
+      )}
+
+      {currentView === TestCreationView.PREVIEW && (
+        <div className="h-full flex flex-col gap-5">
+          <Preview/>
         </div>
       )}
     </div>

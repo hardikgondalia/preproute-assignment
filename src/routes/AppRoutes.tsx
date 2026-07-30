@@ -18,7 +18,7 @@ const AppRoutes = () => {
             <Route path="/test-creation" element={<TestCreation />} />
             <Route path="/test-creation/:testId/questions" element={<TestCreation />} />
             <Route path="/test-creation/:testId/scheduler" element={<TestCreation />} />
-
+            <Route path="/test-creation/:testId/preview" element={<TestCreation />} />
             {/* Add more protected routes here */}
             {/* <Route path="/users" element={<Users />} /> */}
             {/* <Route path="/settings" element={<Settings />} /> */}
