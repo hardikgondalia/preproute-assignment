@@ -54,7 +54,7 @@ export async function getTestById(id: string) {
 
 export async function createBulkQuestions(body:BulkQuestionRequest) {
     return apiClient({
-        endpoint: `/questions/bulk`,
+        endpoint: `/api/questions/bulk`,
         method: "POST",
         body
     });

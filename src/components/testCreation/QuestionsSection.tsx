@@ -3,16 +3,21 @@ import RichTextEditor from "../common/RichTextEditor";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { deleteQuestion, initializeTest, nextQuestion, restoreDraft, updateQuestion } from "../../store/slice/questionSlice";
 import { loadQuestionDraft, saveQuestionDraft } from "../../utils/questionDraftStorage";
+import { createBulkQuestions } from "../../services/task.service";
+import type { ApiResponse } from "../../services/interfaces/common";
+import { useNavigate } from "react-router-dom";
 
 const QuestionsSection = () => {
   const dispatch = useAppDispatch();
   const currentTestState = useAppSelector((state) => state.currentTest);
   const questionState = useAppSelector((state) => state.questions);
+  const navigate = useNavigate();
   const { selectedQuestionId, questionOrder, questions } = questionState;
   const selectedQuestion = selectedQuestionId ? questionOrder.indexOf(selectedQuestionId) + 1 : 1;
   const currentQuestion = selectedQuestionId ? questions[selectedQuestionId] : null;
   const testId = currentTestState.data?.id ?? "";
   const totalQuestions = currentTestState.data?.total_questions ?? 0;
+  const areAllQuestionsValid =questionOrder.length === totalQuestions &&questionOrder.every((id) => questions[id]?.isValid);
 
   useEffect(() => {
     if (!testId) return;
@@ -35,8 +40,36 @@ const QuestionsSection = () => {
 
   const handleDeleteQuestion = () => {
     if (!selectedQuestionId) return;
-
     dispatch(deleteQuestion(selectedQuestionId));
+  };
+
+  const handleAdd = async () => {
+    try {
+      const payload = {
+        questions: questionOrder.map((id) => {
+          const q = questions[id];
+          return {
+            type: q.type,
+            question: q.question,
+            option1: q.option1,
+            option2: q.option2,
+            option3: q.option3,
+            option4: q.option4,
+            correct_option: q.correct_option,
+            explanation: q.explanation,
+            difficulty: q.difficulty,
+            test_id: q.test_id,
+            subject :currentTestState?.data?.subject
+          };
+        }),
+      };
+      const response = await createBulkQuestions(payload) as ApiResponse;
+      if (response.status==="success") {
+        navigate(`/test-creation/${testId}/scheduler`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -290,9 +323,9 @@ const QuestionsSection = () => {
                   <option value="" disabled>
                     Select Difficulty
                   </option>
-                  <option value="Easy">Easy</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Difficult">Difficult</option>
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Difficult</option>
                 </select>
                 <img
                   src="/images/input-dropdown.svg"
@@ -385,6 +418,16 @@ const QuestionsSection = () => {
               onClick={handleNext}
             >
               Next
+            </button>
+          )}
+
+          {selectedQuestion === totalQuestions && (
+            <button
+              className="min-w-50 h-12 px-3 flex justify-center items-center bg-[#7489FF] border-none outline-none rounded-lg text-[16px] font-medium text-[#FAFAFA] cursor-pointer"
+              onClick={handleAdd}
+              disabled={!areAllQuestionsValid}
+            >
+              Add Questions
             </button>
           )}
         </div>
