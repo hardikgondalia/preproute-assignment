@@ -37,7 +37,7 @@ export async function createTest(body: TestConfig) {
     });
 }
 
-export async function updateTest(body: TestConfig, id: string) {
+export async function updateTest(body: any, id: string) {
     return apiClient({
         endpoint: `/api/tests/${id}`,
         method: "PUT",

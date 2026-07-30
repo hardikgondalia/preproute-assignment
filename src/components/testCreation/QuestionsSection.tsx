@@ -57,7 +57,7 @@ const QuestionsSection = () => {
           </button>
         </div>
       </div>
-      <div className="pb-5 flex flex-col gap-7.5 h-[calc(100%-325px)] overflow-y-auto">
+      <div className="pb-5 flex flex-col gap-7.5 h-[calc(100%-355px)] overflow-y-auto">
         <button className="w-fit flex items-center gap-0.5 py-1.5 px-1.25 bg-[#FFFBFB] rounded-lg cursor-pointer">
           <img src="/images/delete.svg" alt="" className="w-5 h-5" />
           <span className="text-[14px] font-normal text-[#FF7F7F]">Delete All Edits</span>
