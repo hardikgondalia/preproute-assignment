@@ -15,15 +15,15 @@ const Sidebar = () => {
       </div>
 
       {showQuestionSidebar ? (
-        <div className="flex items-center h-full">
-          <div className="h-full flex flex-col gap-2.5 px-4 border-r border-[#E5E7EB]">
-            <Link rel="stylesheet" to="/dashboard">
+        <div className="flex items-center h-full border-t border-[#E5E7EB] md:h-[calc(100%-111px)]">
+          <div className="h-full flex flex-col gap-2.5 px-4 py-10 border-r border-[#E5E7EB]">
+            <Link rel="stylesheet" to="/dashboard" className="w-10 h-10 flex justify-center items-center">
               <img src="/images/dashboard.svg" alt="" className="w-5 h-5" />
             </Link>
-            <Link rel="stylesheet" to="/dashboard">
+            <Link rel="stylesheet" to="/dashboard" className="w-10 h-10 flex justify-center items-center">
               <img src="/images/edit-active.svg" alt="" className="w-5 h-5" />
             </Link>
-            <Link rel="stylesheet" to="/dashboard">
+            <Link rel="stylesheet" to="/dashboard" className="w-10 h-10 flex justify-center items-center">
               <img src="/images/test.svg" alt="" className="w-5 h-5" />
             </Link>
           </div>
